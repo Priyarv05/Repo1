@@ -1,0 +1,30 @@
+pipeline
+{
+  agent any
+  stages
+  {
+      stage('continuous download ') 
+      {
+          steps
+          {
+               git 'https://github.com/Priyarv05/Repo1.git'
+          }
+      }
+      stage('continuous build ') 
+      {
+          steps
+          {
+            sh 'mvn package'
+          }
+      }
+      stage('continuous deployment ') 
+      {
+          steps
+          {
+         deploy adapters: [tomcat9(credentialsId: 'e0d56355-4373-42d2-a6b9-73b2ab97e3ca', path: '', url: 'http://172.31.34.187:8080/')], contextPath: 'demo1', onFailure: false, war: '**/*.war'
+         
+          }
+      }
+     
+  }
+}
